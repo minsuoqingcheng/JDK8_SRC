@@ -1037,9 +1037,9 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                     break;
                                 }
                                 Node<K,V> pred = e;
+                                //判断是否遍历到了最后一个结点，如果下一个节点是null，那么就证明新的节点需要插入 就把它插入在链表尾部
                                 if ((e = e.next) == null) {
-                                    pred.next = new Node<K,V>(hash, key,
-                                                              value, null);
+                                    pred.next = new Node<K,V>(hash, key, value, null);
                                     break;
                                 }
                             }
@@ -2281,8 +2281,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                     if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
                         transfer(tab, nt);
                 }
-                else if (U.compareAndSwapInt(this, SIZECTL, sc,
-                                             (rs << RESIZE_STAMP_SHIFT) + 2))
+                else if (U.compareAndSwapInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2))
                     transfer(tab, null);
                 s = sumCount();
             }
